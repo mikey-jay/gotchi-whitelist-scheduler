@@ -142,10 +142,15 @@ const loop = async () => {
   }
 
   if (!CLEAR_ONLY) {
-    if (addressesToAdd.length > 0)
-      await addAddressesToWhitelist(addressesToAdd)
-    if (addressesToRemove.length > 0)
-      await removeAddressesFromWhitelist(addressesToRemove)
+    const addIfNeeded = async () => {
+      if (addressesToAdd.length > 0)
+        return addAddressesToWhitelist(addressesToAdd)
+    }
+    const removeIfNeeded = async () => {
+      if (addressesToRemove.length > 0)
+        return removeAddressesFromWhitelist(addressesToRemove)
+    }
+    return addIfNeeded().then(removeIfNeeded)
   }
 }
 loop().then(() => { if (!RUN_ONCE) setInterval(loop, MILLISECONDS_BETWEEN_RETRIES) } )
