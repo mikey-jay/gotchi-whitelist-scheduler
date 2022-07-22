@@ -150,7 +150,7 @@ const loop = async () => {
       if (addressesToRemove.length > 0)
         return removeAddressesFromWhitelist(addressesToRemove)
     }
-    return addIfNeeded().then(removeIfNeeded)
+    return addIfNeeded().catch(log).finally(removeIfNeeded)
   }
 }
-loop().then(() => { if (!RUN_ONCE) setInterval(loop, MILLISECONDS_BETWEEN_RETRIES) } )
+loop().catch(log).finally(() => { if (!RUN_ONCE) setInterval(loop, MILLISECONDS_BETWEEN_RETRIES) } )
