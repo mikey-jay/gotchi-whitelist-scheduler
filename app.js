@@ -118,8 +118,8 @@ const removeAddressesFromWhitelist = (addresses) => submitTransaction(addresses,
 const clearWhitelist = async () => removeAddressesFromWhitelist(await getWhitelistAddresses(WHITELIST_ID))
 const getWhitelist = (id) => contract.methods.getWhitelist(id).call()
 const getWhitelistAddresses = async (id) => (await getWhitelist(id))['addresses'].map((s) => s.toLowerCase())
-const getCurrentUTCTimeString = () => new Date().toISOString().slice(11,16)
-const isScheduledNow = (schedule) => { const now = getCurrentUTCTimeString() ; return schedule.startTime <= now && schedule.endTime > now }
+const getCurrentUTCDatetimeString = () => new Date().toISOString().slice(0,16)
+const isScheduledNow = (schedule) => { const now = getCurrentUTCDatetimeString() ; return schedule.startTime <= now && schedule.endTime > now }
 
 const loop = async () => {
   log(`WHITELIST_WALLET_ADDRESS=${WHITELIST_WALLET_ADDRESS}`)
